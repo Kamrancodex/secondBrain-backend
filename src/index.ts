@@ -8,10 +8,7 @@ const app = express();
 const PORT = process.env.PORT || 3000;
 const connectDB = async () => {
   try {
-    const conn = await mongoose.connect(
-      process.env.MONGO_URI ||
-        "mongodb+srv://rohitvlogs02:RwH0X8bJF3IpfoxL@cluster0.lhw3atd.mongodb.net/secondbrain"
-    );
+    const conn = await mongoose.connect(process.env.MONGO_URI || "");
     console.log(`MongoDB Connected: ${conn.connection.host}`);
   } catch (error: any) {
     console.error(`Error: ${error.message}`);
