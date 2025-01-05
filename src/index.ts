@@ -3,6 +3,7 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import userRoutes from "./routes/userRoutes";
 import bodyParser from "body-parser";
+import cors from "cors";
 dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -17,7 +18,13 @@ const connectDB = async () => {
 };
 
 connectDB();
+// CORS Middleware
+const corsOptions = {
+  origin: process.env.CLIENT_URL || "http://localhost:5173",
+  optionsSuccessStatus: 200, // For legacy browser support
+};
 
+app.use(cors(corsOptions));
 // Middleware
 app.use(bodyParser.json());
 

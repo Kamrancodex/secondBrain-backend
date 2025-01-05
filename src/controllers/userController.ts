@@ -113,17 +113,16 @@ export const content = async (
   });
 
   try {
-    // Validate the request body using Zod
+ 
     const { type, title, link, tags } = contentSchema.parse(req.body);
 
-    // Access the authenticated user from the middleware
     const userId = req.user?.userId;
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
 
-    // Example: Save content (you can replace this with actual logic)
+
     const newContent = {
       type,
       title,
@@ -153,11 +152,15 @@ export const getContent: express.RequestHandler = async (
 ): Promise<void> => {
   try {
     const userId = req.user?.userId;
+    console.log(userId);
+
     if (!userId) {
       res.status(401).json({ message: "Unauthorized" });
       return;
     }
     const content = await Content.find({ user: userId });
+    console.log(content);
+
     res.status(200).json({ content });
   } catch (error) {
     res.status(500).json({ message: "Server error", error });
@@ -257,12 +260,10 @@ export const updateContent: express.RequestHandler = async (
 
     await Content.updateOne({ _id, user: userId }, updatedContent);
 
-    res
-      .status(200)
-      .json({
-        message: "Content updated successfully",
-        content: updatedContent,
-      });
+    res.status(200).json({
+      message: "Content updated successfully",
+      content: updatedContent,
+    });
   } catch (error) {
     if (error instanceof zod.ZodError) {
       const errors = error.errors.map((err) => err.message);
